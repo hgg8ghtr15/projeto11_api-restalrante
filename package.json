@@ -1,0 +1,30 @@
+{
+  "name": "projeto11_api-restalrante",
+  "version": "1.0.0",
+  "description": "Api de restaurante",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hgg8ghtr15/projeto11_api-restalrante.git"
+  },
+  "keywords": [],
+  "author": "Fabio Lucas Marconi",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hgg8ghtr15/projeto11_api-restalrante/issues"
+  },
+  "homepage": "https://github.com/hgg8ghtr15/projeto11_api-restalrante#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^20.14.12",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4"
+  }
+}
