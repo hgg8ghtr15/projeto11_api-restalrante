@@ -35,59 +35,47 @@ Adicionar validações e middlewares adicionais (autenticação, CORS etc.).
 Configuração do Knex
 --------------------------------------------------------------------------------
 
-1. Instalar dependências
-Execute no terminal:
-Para desenvolvimento (opcional, mas recomendado):
-Por quê? Knex é o ORM, sqlite/sqlite3 são os drivers para o banco leve.
 
-2. Configurar o Knex
-Crie um arquivo knexfile.ts na raiz do projeto com:
-Por quê? Define o banco (SQLite), caminhos para migrations/seeds, e ativa suporte a foreign keys.
+1- Instalar dependências
 
-3. Adicionar script no package.json
-No scripts, adicione:
-Por quê? Permite rodar comandos Knex via npm run knex <comando>.
+npm install knex sqlite sqlite3
+npm install --save-dev @types/knex (opcional)
 
-4. Criar estrutura de pastas para o banco
-Crie as pastas: src/database/migrations/ e src/database/seeds/.
-Por quê? Organiza migrations (mudanças no schema) e seeds (dados iniciais).
+2- Adicionar script Knex ao package.json
 
-5. Criar uma migration inicial
-Rode: npm run knex migrate:make create-products (cria arquivo na pasta migrations).
-Edite o arquivo gerado (ex.: 20260312124359_create-products.ts):
-Por quê? Define o schema da tabela; up cria, down desfaz.
+3- Criar knexfile.ts na raiz
 
-6. Executar a migration
-Rode: npm run knex migrate:latest.
-Isso cria o arquivo src/database/database.db com a tabela aplicada.
-Por quê? Aplica as mudanças no banco; o arquivo .db é gerado automaticamente.
+4- Cliente sqlite3
+connection.filename apontando para database.db
+pool.afterCreate para PRAGMA foreign_keys = ON
+useNullAsDefault: true
+Migrations/seeds com extensions: ["ts"] e pastas migrations e seeds.
 
-7. Integrar no código da API (opcional, mas recomendado)
-Crie um arquivo src/database/connection.ts:
-No controller (src/controllers/products-controller.ts), importe e use:
-Por quê? Conecta o código ao banco; permite queries reais no lugar de mocks.
+5- Configurar conexão reutilizável
 
-8. Testar e validar
-Rode a API: npm run dev.
-Teste a rota /products — agora pode retornar dados do banco (se integrado).
-Para rollback (se precisar): npm run knex migrate:rollback.
-Por quê? Garante que tudo funciona; migrations são reversíveis.
+knex.ts com import default renomeado:
+6- Criar diretórios para migrations/seeds
 
-9. Próximos passos avançados (quando expandir)
-Adicione seeds: npm run knex seed:make products e popule dados iniciais.
-Implemente CRUD completo no controller (insert, update, delete).
-Adicione validações (ex.: via Joi ou express-validator).
-Para produção, considere trocar SQLite por PostgreSQL/MySQL.
-Esse passo a passo é incremental e seguro — você pode testar cada etapa sem quebrar o projeto. Se replicar em outro projeto, ajuste caminhos se necessário!- Por quê? Conecta o código ao banco; permite queries reais no lugar de mocks.
+7- Gerar primeira migration
 
-8. Testar e validar
-Rode a API: npm run dev.
-Teste a rota /products — agora pode retornar dados do banco (se integrado).
-Para rollback (se precisar): npm run knex migrate:rollback.
-Por quê? Garante que tudo funciona; migrations são reversíveis.
+8- Abrir o arquivo gerado e definir up/down (ex: tabela products com id, name, price, timestamps).
+Executar migração
 
-9. Próximos passos avançados (quando expandir)
-Adicione seeds: npm run knex seed:make products e popule dados iniciais.
-Implemente CRUD completo no controller (insert, update, delete).
-Adicione validações (ex.: via Joi ou express-validator).
-Para produção, considere trocar SQLite por PostgreSQL/MySQL.
+9- Confirma criação do .db e das tabelas do Knex.
+(Opcional) Criar seeds
+
+10- Popular a tabela com dados iniciais.
+Integrar no código da API
+
+11- Importar knex onde precisar (controllers, repositórios).
+Exemplo no controller de produtos:
+Testar rota e verificar avisos
+
+12- Executar npm run dev.
+Verificar se não há avisos sobre useNullAsDefault (aplicado no passo 3).
+Testar CRUD básico via Postman/curl.
+Documentar e anotar
+
+13- Adicionar um arquivo de notas ou README com instruções de uso/migração.
+Registrar comandos úteis (npm run knex ...).
+
