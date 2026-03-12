@@ -4,7 +4,8 @@
   "description": "Api de restaurante",
   "main": "index.js",
   "scripts": {
-    "dev": "tsx watch src/server.ts"
+    "dev": "tsx watch src/server.ts",
+    "knex": "node --import tsx ./node_modules/knex/bin/cli.js"
   },
   "repository": {
     "type": "git",
@@ -19,7 +20,10 @@
   },
   "homepage": "https://github.com/hgg8ghtr15/projeto11_api-restalrante#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "knex": "^3.1.0",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

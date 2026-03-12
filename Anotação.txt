@@ -1,0 +1,93 @@
+--------------------------------------------------------------------------------
+Iniciar Projeto Novo
+--------------------------------------------------------------------------------
+Passo a passo para usar/entender o sistema
+1-Instalação
+
+Rode npm install (ou yarn) na raiz do projeto para baixar dependências (express, typescript, etc.).
+
+2-Compilação/execução
+
+Se houver script no package.json, use npm run dev ou similar; caso contrário, compile tsc e execute node dist/server.js.
+Ao iniciar, o console mostrará Servidor rodando na porta. http://localhost:3333.
+
+3-Testar a rota de produtos
+
+Faça uma requisição GET para http://localhost:3333/products (Postman, curl, navegador).
+O retorno atual será:
+
+4- Provocar um erro customizado
+
+No controller há um throw new AppError("Error fetching products"); comentado. Descomente-o e reinicie a aplicação para ver como o middleware trata erros: a resposta será um status 400 com o JSON { "message": "Error fetching products" }.
+
+5- Estrutura de expansão
+
+Para adicionar outras rotas basta criar routers/controlllers semelhantes e montá‑los em index.ts.
+Utilize AppError para lançar exceções controladas e elas serão formatadas automaticamente.
+
+6-Desenvolvimento futuro (não implementado ainda, mas previstos)
+
+Implementar lógica de listagem, criação, atualização e exclusão de produtos (possível conexão com banco de dados).
+Adicionar validações e middlewares adicionais (autenticação, CORS etc.).
+
+
+--------------------------------------------------------------------------------
+Configuração do Knex
+--------------------------------------------------------------------------------
+
+1. Instalar dependências
+Execute no terminal:
+Para desenvolvimento (opcional, mas recomendado):
+Por quê? Knex é o ORM, sqlite/sqlite3 são os drivers para o banco leve.
+
+2. Configurar o Knex
+Crie um arquivo knexfile.ts na raiz do projeto com:
+Por quê? Define o banco (SQLite), caminhos para migrations/seeds, e ativa suporte a foreign keys.
+
+3. Adicionar script no package.json
+No scripts, adicione:
+Por quê? Permite rodar comandos Knex via npm run knex <comando>.
+
+4. Criar estrutura de pastas para o banco
+Crie as pastas: src/database/migrations/ e src/database/seeds/.
+Por quê? Organiza migrations (mudanças no schema) e seeds (dados iniciais).
+
+5. Criar uma migration inicial
+Rode: npm run knex migrate:make create-products (cria arquivo na pasta migrations).
+Edite o arquivo gerado (ex.: 20260312124359_create-products.ts):
+Por quê? Define o schema da tabela; up cria, down desfaz.
+
+6. Executar a migration
+Rode: npm run knex migrate:latest.
+Isso cria o arquivo src/database/database.db com a tabela aplicada.
+Por quê? Aplica as mudanças no banco; o arquivo .db é gerado automaticamente.
+
+7. Integrar no código da API (opcional, mas recomendado)
+Crie um arquivo src/database/connection.ts:
+No controller (src/controllers/products-controller.ts), importe e use:
+Por quê? Conecta o código ao banco; permite queries reais no lugar de mocks.
+
+8. Testar e validar
+Rode a API: npm run dev.
+Teste a rota /products — agora pode retornar dados do banco (se integrado).
+Para rollback (se precisar): npm run knex migrate:rollback.
+Por quê? Garante que tudo funciona; migrations são reversíveis.
+
+9. Próximos passos avançados (quando expandir)
+Adicione seeds: npm run knex seed:make products e popule dados iniciais.
+Implemente CRUD completo no controller (insert, update, delete).
+Adicione validações (ex.: via Joi ou express-validator).
+Para produção, considere trocar SQLite por PostgreSQL/MySQL.
+Esse passo a passo é incremental e seguro — você pode testar cada etapa sem quebrar o projeto. Se replicar em outro projeto, ajuste caminhos se necessário!- Por quê? Conecta o código ao banco; permite queries reais no lugar de mocks.
+
+8. Testar e validar
+Rode a API: npm run dev.
+Teste a rota /products — agora pode retornar dados do banco (se integrado).
+Para rollback (se precisar): npm run knex migrate:rollback.
+Por quê? Garante que tudo funciona; migrations são reversíveis.
+
+9. Próximos passos avançados (quando expandir)
+Adicione seeds: npm run knex seed:make products e popule dados iniciais.
+Implemente CRUD completo no controller (insert, update, delete).
+Adicione validações (ex.: via Joi ou express-validator).
+Para produção, considere trocar SQLite por PostgreSQL/MySQL.
